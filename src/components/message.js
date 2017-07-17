@@ -1,9 +1,8 @@
 import React from 'react';
-
-export default class Message extends React.Component {
-  render () {
+console.log('working');
+const Message = ({message}) => {
     return (
-      <div className="row message unread">
+      <div className="row message unread" >
   <div className="col-xs-1">
     <div className="row">
       <div className="col-xs-2">
@@ -16,10 +15,11 @@ export default class Message extends React.Component {
   </div>
   <div className="col-xs-11">
     <a href="#">
-      Here is some message text that has a bunch of stuff
+      {message.title}
     </a>
   </div>
 </div>
     )
   }
-}
+
+export default Message;
