@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default class Toolbar extends React.Component{
+  constructor (props) {
+    super(props)
+    // this.props.checkState = this.props.checkState.bind(this)
+  }
   render () {
     return (
       <div className="ros toolbar">
@@ -11,7 +15,7 @@ export default class Toolbar extends React.Component{
         </p>
 
         <button className="btn btn-default">
-          <i className="fa fa-check-square-o"></i>
+          <i className="fa fa-check-square-o" onClick= {()=>{this.props.checkState}}></i>
         </button>
 
         <button className="btn btn-default">
