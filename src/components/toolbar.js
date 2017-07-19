@@ -3,7 +3,24 @@ import React from 'react';
 export default class Toolbar extends React.Component{
   constructor (props) {
     super(props)
-    // this.props.checkState = this.props.checkState.bind(this)
+    this.toolbarCheckBoxSelect = this.toolbarCheckBoxSelect.bind(this);
+  }
+  toolbarCheckBoxSelect() {
+    let counter = 0;
+    let result = "";
+    this.props.messages.forEach(e => {
+      if(e.selected) {
+        counter++
+      }
+    })
+    if(counter === 0) {
+      result = "fa fa-square-o";
+    } else if (counter > 0 && counter < this.props.messages.length) {
+      result= "fa fa-minus-square-o";
+    } else if (counter === this.props.messages.length){
+      result= "fa fa-check-square-o";
+    }
+    return result;
   }
   render () {
     return (
@@ -15,14 +32,14 @@ export default class Toolbar extends React.Component{
         </p>
 
         <button className="btn btn-default">
-          <i className="fa fa-check-square-o" onClick= {()=>{this.props.checkState}}></i>
+          <i className={this.toolbarCheckBoxSelect()} onClick= {()=>{this.props.checkbox(this.props.messages)}}></i>
         </button>
 
-        <button className="btn btn-default">
+        <button className="btn btn-default " onClick= {()=>{this.props.markAsRead(this.props.messages)}}>
           Mark As Read
         </button>
 
-        <button className="btn btn-default">
+        <button className="btn btn-default" onClick= {()=>{this.props.markAsUnread(this.props.messages)}}>
           Mark As Unread
         </button>
 
