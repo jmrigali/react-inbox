@@ -1,4 +1,5 @@
 import React from 'react';
+import Label from '../components/Labels';
 
 const Message = ({message, checkstate, test}) => {
     return (
@@ -14,6 +15,7 @@ const Message = ({message, checkstate, test}) => {
     </div>
   </div>
   <div className="col-xs-11">
+  {message.labels.map((ele, index)=><Label ele= {ele} key={index}/>)}
     <a href="#" >
       {message.title}
     </a>

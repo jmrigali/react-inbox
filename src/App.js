@@ -12,8 +12,9 @@ const messageArray = [
     checkStar: '-o',
     checkRead:'unread',
     checkSelect: '',
-    chechCheck: '',
-  }},
+    checkCheck: ''},
+  labels: []
+  },
   {title: 'This is something I\'m not quite sure what',
   starred:false,
   read: false,
@@ -23,8 +24,9 @@ const messageArray = [
     checkStar: '-o',
     checkRead:'unread',
     checkSelect: '',
-    checkCheck: ''
-  }},
+    checkCheck: ''},
+  labels: ['dev', 'gschool']
+  },
   {title: 'Maybe it\'s an email, who knows?',
   starred: false,
   read:false,
@@ -34,8 +36,9 @@ const messageArray = [
     checkStar: '-o',
     checkRead:'unread',
     checkSelect: '',
-    checkCheck: ''
-  }}];
+    checkCheck: ''},
+  labels: ['dev','personal', 'gschool']
+  }];
 
 function checkClass (obj, objkey) {
   if(obj[objkey]) {
@@ -108,6 +111,34 @@ function selectAsUnread (arr) {
   })
 }
 
+function deleteMessage (arr) {
+  let i = [];
+   arr.forEach((ele, index) => {
+    if(ele.selected) {
+      i.push(index)
+    }
+  })
+  i.forEach((ele)=>{
+    arr.splice(i, 1);
+  })
+}
+function add (e, arr){
+  arr.forEach(ele=>{
+    if(ele.selected){
+      ele.labels.push(e.target.value);
+    }
+  })
+}
+function remove (e, arr) {
+  arr.forEach((ele, i)=>{
+    if(ele.selected && ele.labels.indexOf(e.target.value)!== -1){
+      ele.labels.splice(ele.labels.indexOf(e.target.value), 1);
+    }
+  })
+}
+
+
+
 class App extends Component {
   constructor () {
     super()
@@ -122,6 +153,9 @@ class App extends Component {
     this.setStateChangeToolBar = this.setStateChangeToolBar.bind(this);
     this.markAsRead = this.markAsRead.bind(this);
     this.markAsUnread = this.markAsUnread.bind(this);
+    this.deleteFunction = this.deleteFunction.bind(this);
+    this.addLabels = this.addLabels.bind(this);
+    this.removeLabels = this.removeLabels.bind(this);
   }
   checkStateChange (obj, objkey, event) {
     checkClass(obj, objkey, event);
@@ -141,12 +175,25 @@ class App extends Component {
     selectAsUnread (arr);
     this.setState({messageArray:this.state.messageArray});
   }
+  deleteFunction (arr) {
+    deleteMessage(arr);
+    this.setState({messageArray:this.state.messageArray});
+  }
+  addLabels (e, arr) {
+    add(e,arr);
+    this.setState({messageArray:this.state.messageArray});
+  }
+  removeLabels (e, arr) {
+    remove(e,arr);
+    this.setState({messageArray:this.state.messageArray});
+  }
+
 
   render() {
     return (
       <div className="container">
       <header>React-Inbox</header>
-        <Toolbar markAsUnread={this.markAsUnread} markAsRead= {this.markAsRead} checkbox = {this.setStateChangeToolBar} messages = {this.state.messageArray} toolbar = {this.state.toolbar}/>
+        <Toolbar removeLabels={this.removeLabels} addLabels = {this.addLabels} markAsUnread={this.markAsUnread} markAsRead= {this.markAsRead} checkbox = {this.setStateChangeToolBar} messages = {this.state.messageArray} toolbar = {this.state.toolbar} delete = {this.deleteFunction}/>
         <MessageList messages= {this.state.messageArray} checkState= {this.checkStateChange} />
       </div>
     );
